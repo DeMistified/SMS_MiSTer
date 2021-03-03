@@ -49,6 +49,8 @@ architecture RTL of EnvelopeMemory is
 
   type EGDATA_ARRAY is array (0 to 18-1) of EGDATA_VECTOR_TYPE;
   signal egdata_set : EGDATA_ARRAY;
+  attribute ramstyle : string;
+  attribute ramstyle of egdata_set : signal is "logic";
 
 begin
 

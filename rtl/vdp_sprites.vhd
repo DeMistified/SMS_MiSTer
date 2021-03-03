@@ -31,7 +31,8 @@ port (
 end vdp_sprites;
 
 architecture Behavioral of vdp_sprites is
-
+	attribute altera_attribute : string;
+	attribute altera_attribute of Behavioral : architecture is "-name AUTO_ROM_RECOGNITION OFF";
 	constant WAITING:	std_logic_vector := "000";
 	constant COMPARE:	std_logic_vector := "001";
 	constant LOAD_N:	std_logic_vector := "010";
@@ -57,9 +58,16 @@ architecture Behavioral of vdp_sprites is
 	signal spr_d1:	tdata;
 	signal spr_d2:	tdata;
 	signal spr_d3:	tdata;
+	attribute ramstyle : string;
+	attribute ramstyle of spr_x : signal is "logic";
+	attribute ramstyle of spr_d0 : signal is "logic";
+	attribute ramstyle of spr_d1 : signal is "logic";
+	attribute ramstyle of spr_d2 : signal is "logic";
+	attribute ramstyle of spr_d3: signal is "logic";
 
 	type tcolor is array (0 to MAX_SPPL) of std_logic_vector(3 downto 0);
 	signal spr_color:	tcolor;
+	attribute ramstyle of spr_color: signal is "logic";
 	signal spr_active:	std_logic_vector(0 to MAX_SPPL);
 	
 begin

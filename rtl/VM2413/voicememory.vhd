@@ -53,6 +53,8 @@ architecture RTL of VoiceMemory is
   -- addresses by Altera's QuartusII compiler.
   type VOICE_ARRAY_TYPE is array (VOICE_ID_TYPE'range) of VOICE_VECTOR_TYPE;
   signal voices : VOICE_ARRAY_TYPE;
+  attribute ramstyle : string;
+  attribute ramstyle of voices : signal is "logic";
 
   component VoiceRom port (
     clk   : in std_logic;

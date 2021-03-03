@@ -50,7 +50,6 @@ entity vdp_main is
 end vdp_main;
 
 architecture Behavioral of vdp_main is
-	
 	signal bg_y:			std_logic_vector(7 downto 0);
 	signal bg_vram_A:		std_logic_vector(13 downto 0);
 	signal bg_color:		std_logic_vector(4 downto 0);
@@ -61,7 +60,9 @@ architecture Behavioral of vdp_main is
 	
 	signal line_reset:	std_logic;
  	
-	
+	attribute ramstyle : string;
+	attribute ramstyle of color : signal is "logic";
+
 begin
 
 	process (x,y,bg_scroll_y,disable_vscroll,smode_M1,smode_M3)

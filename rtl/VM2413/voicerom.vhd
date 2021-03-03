@@ -48,7 +48,7 @@ architecture RTL of VoiceRom is
 
   type VOICE_ARRAY_TYPE is array (VOICE_ID_TYPE'range) of VOICE_VECTOR_TYPE;
  
-  constant base_voices : VOICE_ARRAY_TYPE := (
+  signal base_voices : VOICE_ARRAY_TYPE := (
   -- APEK<ML>KL< TL >W<F><AR><DR><SL><RR>
     "000000000000000000000000000000000000", -- @0(M)
     "000000000000000000000000000000000000", -- @0(C)
@@ -107,6 +107,8 @@ architecture RTL of VoiceRom is
     "000001010000000000001111100001011001", -- TOM
     "000000010000000000001010101001010101"  -- CYM
   );
+  attribute ramstyle : string;
+  attribute ramstyle of base_voices : signal is "logic";
 
   --Register  Bitfield   Description
   --$00       TVSK MMMM  Modulator tremolo (T), vibrato (V), sustain (S), key rate scaling (K), multiplier (M)
@@ -119,7 +121,7 @@ architecture RTL of VoiceRom is
   --$07       SSSS RRRR  Carrier sustain (S), release (R)
   -- APEK<ML>KL< TL >W<F><AR><DR><SL><RR>
 
-  constant vrc7_voices : VOICE_ARRAY_TYPE := (
+  signal vrc7_voices : VOICE_ARRAY_TYPE := (
     "000000000000000000000000000000000000", -- @0(M)
     "000000000000000000000000000000000000", -- @0(C)
     -- APEK<ML>KL< TL >W<F><AR><DR><SL><RR>
@@ -177,6 +179,7 @@ architecture RTL of VoiceRom is
     "000001010000000000001111100001011001", -- TOM
     "000000010000000000001010101001010101"  -- CYM
   );
+  attribute ramstyle of vrc7_voices : signal is "logic";
 
 begin
 
