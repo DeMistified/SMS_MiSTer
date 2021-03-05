@@ -40,18 +40,18 @@ library ieee;
 
 entity interpolate_mul is
     port (
-        i0      : in    std_logic_vector(  8 downto 0 );    --  •„†–³‚µ 9bit (®”•” 0bit, ¬”•” 9bit)
-        i1      : in    std_logic_vector( 11 downto 0 );    --  •„†•t‚«12bit (®”•” 8bit, ¬”•” 4bit)
-        o       : out   std_logic_vector( 13 downto 0 )     --  •„†•t‚« 7bit (®”•” 8bit, ¬”•” 6bit)
+        i0      : in    std_logic_vector(  8 downto 0 );    --  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 9bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 9bit)
+        i1      : in    std_logic_vector( 11 downto 0 );    --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½12bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4bit)
+        o       : out   std_logic_vector( 13 downto 0 )     --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ 7bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6bit)
     );
 end interpolate_mul;
 
 architecture rtl of interpolate_mul is
-    signal w_mul    : std_logic_vector( 21 downto 0 );      --  •„†•t‚«22bit (®”•” 9bit, ¬”•”13bit)
+    signal w_mul    : std_logic_vector( 21 downto 0 );      --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½22bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 9bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½13bit)
 begin
 
     w_mul   <= ('0' & i0) * i1;
-    o       <= w_mul( 20 downto 7 );        --  MSBƒJƒbƒg‚Å 21bit, ¬”•”‰ºˆÊ 7bitƒJƒbƒg
+    o       <= w_mul( 20 downto 7 );        --  MSBï¿½Jï¿½bï¿½gï¿½ï¿½ 21bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 7bitï¿½Jï¿½bï¿½g
 end rtl;
 
 -- ----------------------------------------------------------------------------
@@ -65,23 +65,24 @@ entity SineTable is
         clk     : in    std_logic;
         clkena  : in    std_logic;
         wf      : in    std_logic;
-        addr    : in    std_logic_vector( 17 downto 0 );    --  ®”•” 9bit, ¬”•” 9bit
-        data    : out   std_logic_vector( 13 downto 0 )     --  ®”•” 8bit, ¬”•” 6bit
+        addr    : in    std_logic_vector( 17 downto 0 );    --  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 9bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 9bit
+        data    : out   std_logic_vector( 13 downto 0 )     --  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6bit
     );
 end SineTable;
 
 architecture rtl of sinetable is
+	attribute ramstyle : string;
 
     component interpolate_mul
         port (
-            i0      : in    std_logic_vector(  8 downto 0 );    --  •„†–³‚µ 9bit (®”•” 0bit, ¬”•” 9bit)
-            i1      : in    std_logic_vector( 11 downto 0 );    --  •„†•t‚« 8bit (®”•” 8bit)
-            o       : out   std_logic_vector( 13 downto 0 )     --  •„†–³‚µ 7bit (®”•” 8bit)
+            i0      : in    std_logic_vector(  8 downto 0 );    --  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 9bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 9bit)
+            i1      : in    std_logic_vector( 11 downto 0 );    --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ 8bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8bit)
+            o       : out   std_logic_vector( 13 downto 0 )     --  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 7bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8bit)
         );
     end component;
 
-    type sin_type is array (0 to 127) of std_logic_vector( 10 downto 0 );  --   ®”•” 7bit, ¬”•” 4bit
-    constant sin_data : sin_type := (
+    type sin_type is array (0 to 127) of std_logic_vector( 10 downto 0 );  --   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 7bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4bit
+    signal sin_data : sin_type := (
         "11111111111", "11001010000", "10101010001", "10010111100",
         "10001010011", "10000000001", "01110111110", "01110000101",
         "01101010101", "01100101001", "01100000011", "01011100000",
@@ -115,9 +116,10 @@ architecture rtl of sinetable is
         "00000000001", "00000000001", "00000000000", "00000000000",
         "00000000000", "00000000000", "00000000000", "00000000000"
     );
+	 attribute ramstyle of sin_data : signal is "logic";
 
-    signal ff_data0     : std_logic_vector( 10 downto 0 );  --  •„†ƒiƒV®”•” 7bit, ¬”•” 4bit
-    signal ff_data1     : std_logic_vector( 10 downto 0 );  --  •„†ƒiƒV®”•” 7bit, ¬”•” 4bit
+    signal ff_data0     : std_logic_vector( 10 downto 0 );  --  ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 7bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4bit
+    signal ff_data1     : std_logic_vector( 10 downto 0 );  --  ï¿½ï¿½ï¿½ï¿½ï¿½iï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 7bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4bit
     signal w_wf         : std_logic_vector( 13 downto 0 );
     signal w_xor        : std_logic_vector(  6 downto 0 );
     signal w_addr0      : std_logic_vector(  6 downto 0 );
@@ -126,8 +128,8 @@ architecture rtl of sinetable is
     signal ff_sign      : std_logic;
     signal ff_wf        : std_logic;
     signal ff_weight    : std_logic_vector(  8 downto 0 );
-    signal w_sub        : std_logic_vector( 11 downto 0 );  --  •„†•t‚«®”•” 8bit, ¬”•” 4bit
-    signal w_mul        : std_logic_vector( 13 downto 0 );  --  •„†•t‚«®”•” 8bit, ¬”•” 6bit
+    signal w_sub        : std_logic_vector( 11 downto 0 );  --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4bit
+    signal w_mul        : std_logic_vector( 13 downto 0 );  --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6bit
     signal w_inter      : std_logic_vector( 13 downto 0 );
     signal ff_data      : std_logic_vector( 13 downto 0 );
 begin
@@ -135,10 +137,10 @@ begin
     w_xor   <= (others => addr(16));
     w_xaddr <= addr( 15 downto 9 ) xor w_xor;
     w_addr0 <= w_xaddr;
-    w_addr1 <= "1111111" xor w_xor when(addr( 15 downto 9 ) = "1111111" )else   --  ”gŒ`‚ªzŠÂ‚·‚é•”•ª‚Ì‘Îˆ
+    w_addr1 <= "1111111" xor w_xor when(addr( 15 downto 9 ) = "1111111" )else   --  ï¿½gï¿½`ï¿½ï¿½ï¿½zï¿½Â‚ï¿½ï¿½é•”ï¿½ï¿½ï¿½Ì‘Îï¿½
                (addr( 15 downto 9 ) + 1) xor w_xor;
 
-    --  ”gŒ`ƒƒ‚ƒŠ
+    --  ï¿½gï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     process( clk )
     begin
         if( clk'event and clk = '1' )then
@@ -149,7 +151,7 @@ begin
         end if;
     end process;
 
-    --  Cüî•ñ‚Ì’x‰„i”gŒ`ƒƒ‚ƒŠ‚Ì“Ç‚İo‚µ’x‰„‚É‚ ‚í‚¹‚éj
+    --  ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì’xï¿½ï¿½ï¿½iï¿½gï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì“Ç‚İoï¿½ï¿½ï¿½xï¿½ï¿½ï¿½É‚ï¿½ï¿½í‚¹ï¿½ï¿½ï¿½j
     process( clk )
     begin
         if( clk'event and clk = '1' )then
@@ -161,7 +163,7 @@ begin
         end if;
     end process;
 
-    --  •âŠÔ    (¦•„†‚ğ‚Ü‚½‚ª‚éêŠ‚Å‚Í 0 ‚É‚È‚é‚©‚ç ff_sign ‚Í‹C‚É‚µ‚È‚¢j
+    --  ï¿½ï¿½ï¿½ï¿½    (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êŠï¿½Å‚ï¿½ 0 ï¿½É‚È‚é‚©ï¿½ï¿½ ff_sign ï¿½Í‹Cï¿½É‚ï¿½ï¿½È‚ï¿½ï¿½j
     --  o = i0 * (1 - k) + i1 * w = i0 - w * i0 + w * i1 = i0 + w * (i1 - i0)
     w_sub   <= ('0' & ff_data1) - ('0' & ff_data0);
 
@@ -172,15 +174,15 @@ begin
         o       => w_mul
     );
 
-    --  ‰ºˆÊ 6bit i¬”•”j‚ğ‰‰Z¸“xˆÛ‚Ì‚½‚ß‚Éc‚·
-    w_inter <= (ff_data0 & "00") + w_mul;   --  "00" ‚ÍŒ…‚ ‚í‚¹
+    --  ï¿½ï¿½ï¿½ï¿½ 6bit ï¿½iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½Zï¿½ï¿½ï¿½xï¿½Ûï¿½ï¿½Ì‚ï¿½ï¿½ß‚Écï¿½ï¿½
+    w_inter <= (ff_data0 & "00") + w_mul;   --  "00" ï¿½ÍŒï¿½ï¿½ï¿½ï¿½í‚¹
     w_wf    <= (others => ff_wf);
 
     process( clk )
     begin
         if( clk'event and clk = '1' )then
             if( clkena = '1' )then
-                --  •âŠÔ‰‰Z‚ÌŒ‹‰Ê‚ğ‚¢‚Á‚½‚ñ FF ‚É“ü‚ê‚Ä‰‰Z’x‰„‚ğ‹zû
+                --  ï¿½ï¿½ï¿½Ô‰ï¿½ï¿½Zï¿½ÌŒï¿½ï¿½Ê‚ï¿½ï¿½ï¿½ï¿½ï¿½ FF ï¿½É“ï¿½ï¿½ï¿½ï¿½Ä‰ï¿½ï¿½Zï¿½xï¿½ï¿½ï¿½ï¿½ï¿½zï¿½ï¿½
                 ff_data <= (ff_sign & w_inter(12 downto 0)) or w_wf;
             end if;
         end if;
@@ -189,26 +191,26 @@ begin
     data <= ff_data;
 
     --------------------------------------------------------------------------
-    --  addr        X addr“ü—Í  X
-    --  w_addr0     X Šm’è      X
-    --  w_addr1     X Šm’è      X
-    --  ff_data0                X Šm’è      X
-    --  ff_data1                X Šm’è      X
-    --  ff_sign                 X Šm’è      X
-    --  ff_wf                   X Šm’è      X
-    --  ff_weight               X Šm’è      X
-    --  w_sub                   X Šm’è      X
-    --  w_mul                   X Šm’è      X
-    --  w_inter                 X Šm’è      X
-    --  w_wf                    X Šm’è      X
-    --  ff_data                             X Šm’è      X
-    --  data                                X Šm’è      X
+    --  addr        X addrï¿½ï¿½ï¿½ï¿½  X
+    --  w_addr0     X ï¿½mï¿½ï¿½      X
+    --  w_addr1     X ï¿½mï¿½ï¿½      X
+    --  ff_data0                X ï¿½mï¿½ï¿½      X
+    --  ff_data1                X ï¿½mï¿½ï¿½      X
+    --  ff_sign                 X ï¿½mï¿½ï¿½      X
+    --  ff_wf                   X ï¿½mï¿½ï¿½      X
+    --  ff_weight               X ï¿½mï¿½ï¿½      X
+    --  w_sub                   X ï¿½mï¿½ï¿½      X
+    --  w_mul                   X ï¿½mï¿½ï¿½      X
+    --  w_inter                 X ï¿½mï¿½ï¿½      X
+    --  w_wf                    X ï¿½mï¿½ï¿½      X
+    --  ff_data                             X ï¿½mï¿½ï¿½      X
+    --  data                                X ï¿½mï¿½ï¿½      X
     --  Operator
     --    stage     X 01        X 10        X 11        X 00        X
     --
-    --  Operator ‚ÍAstage = 01 ‚Ì‚Æ‚«‚É“Š“ü‚µ‚½“ü—Í’l‚ÉŠî‚Ã‚­o—Í‚ğ“¾‚éê‡‚É
-    --  stage = 11 ‚Åó‚¯æ‚ç‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+    --  Operator ï¿½ÍAstage = 01 ï¿½Ì‚Æ‚ï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í’lï¿½ÉŠï¿½ï¿½Ã‚ï¿½ï¿½oï¿½Í‚ğ“¾‚ï¿½ï¿½ê‡ï¿½ï¿½
+    --  stage = 11 ï¿½Åó‚¯ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½ï¿½ï¿½Î‚È‚ï¿½ï¿½È‚ï¿½ï¿½B
     --
-    --  ƒAƒhƒŒƒXw’è‚³‚ê‚Ä‚©‚çA‚»‚ê‚É‘Î‰‚·‚é’l‚ª“¾‚ç‚ê‚é‚Ü‚Å 2cycle ‚Ì’x‰„
+    --  ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½wï¿½è‚³ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ 2cycle ï¿½Ì’xï¿½ï¿½
     --
 end rtl;

@@ -40,18 +40,18 @@ library ieee;
 
 entity linear_table_mul is
     port (
-        i0      : in    std_logic_vector( 5 downto 0 );     --  •„†–³‚µ 6bit (¬”•”  6bit)
-        i1      : in    std_logic_vector( 9 downto 0 );     --  •„†•t‚«10bit (®”•” 10bit)
-        o       : out   std_logic_vector( 9 downto 0 )      --  •„†•t‚«10bit (®”•” 10bit)
+        i0      : in    std_logic_vector( 5 downto 0 );     --  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  6bit)
+        i1      : in    std_logic_vector( 9 downto 0 );     --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½10bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 10bit)
+        o       : out   std_logic_vector( 9 downto 0 )      --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½10bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 10bit)
     );
 end linear_table_mul;
 
 architecture rtl of linear_table_mul is
-    signal w_mul    : std_logic_vector( 16 downto 0 );      --  •„†•t‚«17bit (®”•”16bit)
+    signal w_mul    : std_logic_vector( 16 downto 0 );      --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½17bit (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½16bit)
 begin
 
     w_mul   <= ('0' & i0) * i1;
-    o       <= w_mul( 15 downto 6 );        --  MSBƒJƒbƒg, ¬”•”‰ºˆÊ 6bitƒJƒbƒg
+    o       <= w_mul( 15 downto 6 );        --  MSBï¿½Jï¿½bï¿½g, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6bitï¿½Jï¿½bï¿½g
 end rtl;
 
 -- ----------------------------------------------------------------------------
@@ -64,12 +64,13 @@ entity LinearTable is
     port (
         clk     : in    std_logic;
         reset   : in    std_logic;
-        addr    : in    std_logic_vector( 13 downto 0 );    --  ®”•” 8bit, ¬”•” 6bit
+        addr    : in    std_logic_vector( 13 downto 0 );    --  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8bit, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 6bit
         data    : out   signed_li_type
     );
 end LinearTable;
 
 architecture rtl of lineartable is
+	attribute ramstyle : string;
 
     component linear_table_mul
         port (
@@ -80,7 +81,7 @@ architecture rtl of lineartable is
     end component;
 
     type log2lin_type is array ( 0 to 127 ) of std_logic_vector( 8 downto 0 );
-    constant log2lin_data : log2lin_type := (
+    signal log2lin_data : log2lin_type := (
         "111111111","111101001","111010100","111000000",
         "110101101","110011011","110001010","101111001",
         "101101001","101011010","101001011","100111101",
@@ -114,6 +115,7 @@ architecture rtl of lineartable is
         "000000010","000000010","000000010","000000010",
         "000000010","000000010","000000010","000000000"
     );
+	attribute ramstyle of log2lin_data : signal is "logic";
 
     signal ff_sign      : std_logic;
     signal ff_weight    : std_logic_vector(  5 downto 0 );
@@ -122,7 +124,7 @@ architecture rtl of lineartable is
 
     signal w_addr1      : std_logic_vector( 12 downto 6 );
     signal w_data       : std_logic_vector(  8 downto 0 );
-    signal w_sub        : std_logic_vector(  9 downto 0 );  --  •„†•t‚«
+    signal w_sub        : std_logic_vector(  9 downto 0 );  --  ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½
     signal w_mul        : std_logic_vector(  9 downto 0 );
     signal w_inter      : std_logic_vector(  9 downto 0 );
 begin
@@ -132,7 +134,7 @@ begin
     process( clk )
     begin
         if( clk'event and clk = '1' )then
-            --  ƒAƒhƒŒƒXw’è‚³‚ê‚½Ÿ‚ÌƒTƒCƒNƒ‹‚Å‘Î‰‚·‚é’l‚ªo‚Ä‚­‚éi1cycle delayj
+            --  ï¿½Aï¿½hï¿½ï¿½ï¿½Xï¿½wï¿½è‚³ï¿½ê‚½ï¿½ï¿½ï¿½ÌƒTï¿½Cï¿½Nï¿½ï¿½ï¿½Å‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lï¿½ï¿½ï¿½oï¿½Ä‚ï¿½ï¿½ï¿½ï¿½i1cycle delayï¿½j
             ff_data0 <= log2lin_data( conv_integer( addr(12 downto 6) ) );
             ff_data1 <= log2lin_data( conv_integer( w_addr1           ) );
         end if;
@@ -146,7 +148,7 @@ begin
         end if;
     end process;
 
-    --  •âŠÔ    (¦•„†‚ğ‚Ü‚½‚ª‚éêŠ‚Å‚Í 0 ‚É‚È‚é‚©‚ç ff_sign ‚Í‹C‚É‚µ‚È‚¢j
+    --  ï¿½ï¿½ï¿½ï¿½    (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½êŠï¿½Å‚ï¿½ 0 ï¿½É‚È‚é‚©ï¿½ï¿½ ff_sign ï¿½Í‹Cï¿½É‚ï¿½ï¿½È‚ï¿½ï¿½j
     --  o = i0 * (1 - k) + i1 * w = i0 - w * i0 + w * i1 = i0 + w * (i1 - i0)
     w_sub   <=  ('0' & ff_data1) - ('0' & ff_data0);
 
