@@ -61,6 +61,7 @@ module SMS
 
 assign LED  = ~ioctl_download & ~bk_ena;
 
+//`define USE_SAVESTATES
 `define USE_SP64
 
 `ifdef USE_SP64
@@ -75,7 +76,9 @@ localparam SP64     = 1'b0;
 parameter CONF_STR = {
 	"SMS;;",
 	"F,BINSMSGG SG ,Load;",
+`ifdef USE_SAVESTATES
 	"S,SAV,Mount;",
+`endif
 	"T7,Write Save RAM;",
 	"O34,Scandoubler Fx,None,CRT 25%,CRT 50%,CRT 75%;",
 	"O2,TV System,NTSC,PAL;",

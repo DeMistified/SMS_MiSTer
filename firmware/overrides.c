@@ -2,6 +2,7 @@
 
 /* Key -> gamepad mapping.  We override this to swap buttons A and B for NES. */
 
+#if 0
 unsigned char joy_keymap[]=
 {
 	KEY_CAPSLOCK,
@@ -21,7 +22,8 @@ unsigned char joy_keymap[]=
 	KEY_LEFTARROW,
 	KEY_RIGHTARROW,
 };
+#endif
 
 /* Initial ROM */
-const char *bootrom_name="AUTOBOOTNES";
+const char *bootrom_name="AUTOBOOTSMS";
 
