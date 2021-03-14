@@ -2,7 +2,7 @@ DEMISTIFYPATH=DeMiSTify
 PROJECT=SMS
 BOARD=
 
-all: submodules vbcc firmware init compile
+all: submodules vbcc firmware init compile tns
 
 submodules: $(DEMISTIFYPATH)/Makefile
 
@@ -28,4 +28,8 @@ compile:
 .PHONY: clean
 clean:
 	make -f $(DEMISTIFYPATH)/Makefile DEMISTIFYPATH=$(DEMISTIFYPATH) PROJECTS=$(PROJECT) BOARD=$(BOARD) clean
+
+.PHONY: tns
+tns:
+	grep -r Design-wide\ TNS fpga/*
 

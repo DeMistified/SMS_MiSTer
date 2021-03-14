@@ -522,8 +522,8 @@ begin
 
 		-- Joysticks
 		
-		joy1 => std_logic_vector(joy1(7 downto 6)&joy1(4)&joy1(5)&joy1(3 downto 0)), -- Swap buttons A & B
-		joy2 => std_logic_vector(joy2(7 downto 6)&joy2(4)&joy2(5)&joy2(3 downto 0)), -- Swap buttons A & B
+		joy1 => std_logic_vector(joy1),
+		joy2 => std_logic_vector(joy2),
 		joy3 => std_logic_vector(joy3),
 		joy4 => std_logic_vector(joy4),
 
