@@ -568,8 +568,8 @@ begin
 		joy3 => std_logic_vector(joy3),
 		joy4 => std_logic_vector(joy4),
 
-		menu_button => c64_menu and usart_cts and not power_button,
-		
+		buttons => (0=>usart_cts and not power_button,others=>'0'),
+
 		-- UART
 		rxd => rs232_rxd,
 		txd => rs232_txd

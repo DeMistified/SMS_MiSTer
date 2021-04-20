@@ -285,6 +285,8 @@ controller : entity work.substitute_mcu
 		ps2m_clk_out => ps2_mouse_clk_out,
 		ps2m_dat_out => ps2_mouse_dat_out,
 
+		buttons => (0=>KEY[0],others=>'0'),
+
 		-- UART
 		rxd => rs232_rxd,
 		txd => rs232_txd

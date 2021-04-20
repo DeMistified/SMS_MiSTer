@@ -1,4 +1,5 @@
 # files inherited from the guest core:
+toplevels/demistify_defines.v
 sms.qip
 
 # The controller module
