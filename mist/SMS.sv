@@ -61,8 +61,9 @@ module SMS
 
 assign LED  = ~ioctl_download & ~bk_ena;
 
+// Define these in a board-specific file...
 //`define USE_SAVESTATES
-`define USE_SP64
+//`define USE_SP64
 
 `ifdef USE_SP64
 localparam MAX_SPPL = 63;
@@ -78,8 +79,8 @@ parameter CONF_STR = {
 	"F,BINSMSGG SG ,Load;",
 `ifdef USE_SAVESTATES
 	"S,SAV,Mount;",
-`endif
 	"T7,Write Save RAM;",
+`endif
 	"O34,Scandoubler Fx,None,CRT 25%,CRT 50%,CRT 75%;",
 	"O2,TV System,NTSC,PAL;",
 `ifdef USE_SP64
@@ -416,20 +417,14 @@ mist_video #(.SD_HCNT_WIDTH(10), .COLOR_DEPTH(4)) mist_video
 
 //////////////////   AUDIO   //////////////////
 
-dac #(16) dacl
+hybrid_pwm_sd dac
 (
-	.clk_i(clk_sys),
-	.res_n_i(~reset),
-	.dac_i({~audioL[15], audioL[14:0]}),
-	.dac_o(AUDIO_L)
-);
-
-dac #(16) dacr
-(
-	.clk_i(clk_sys),
-	.res_n_i(~reset),
-	.dac_i({~audioR[15], audioR[14:0]}),
-	.dac_o(AUDIO_R)
+	.clk(clk_sys),
+	.terminate(1'b0),
+	.d_l({~audioL[15], audioL[14:0]}),
+	.q_l(AUDIO_L),
+	.d_r({~audioR[15], audioR[14:0]}),
+	.q_r(AUDIO_R)
 );
 
 /////////////////////////  STATE SAVE/LOAD  /////////////////////////////
