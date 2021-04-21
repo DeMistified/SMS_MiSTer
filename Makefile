@@ -23,6 +23,7 @@ init:
 
 .PHONY: compile
 compile:
+	make -f build_id.mk
 	make -f $(DEMISTIFYPATH)/Makefile DEMISTIFYPATH=$(DEMISTIFYPATH) PROJECTS=$(PROJECT) BOARD=$(BOARD) compile
 
 .PHONY: clean
